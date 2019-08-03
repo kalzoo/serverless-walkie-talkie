@@ -5,25 +5,28 @@ import { string } from "prop-types";
 import { AudioSegment } from "types";
 import { Loader } from "semantic-ui-react";
 
+import RecordButton from "components/RecordButton";
+import playSoundData from "utilities/playSound";
+
 const ChatRoom: React.FC = () => (
   <Subscription<Data, {}>
     subscription={ON_CREATE_AUDIO_SEGMENT}
+    onSubscriptionData={({ subscriptionData: { data } }) =>
+      data && playSoundData(data.onCreateAudioSegment.data)
+    }
     variables={{ roomId: "abc123" }}
   >
-    {({ data, error, loading }) => {
+    {({ error, loading }) => {
       if (error) {
         console.error("[OnCreateAudioSegment] Error: ", error);
         return "Error";
       }
-      if (!data) {
-        console.error("[OnCreateAudioSegment] No Data");
-        return ":(";
-      }
-      if (loading) return <Loader active />;
 
-      const { onCreateAudioSegment } = data;
-
-      return <div>{onCreateAudioSegment.data}</div>;
+      return (
+        <div>
+          <RecordButton onRecordAudio={console.log} />
+        </div>
+      );
     }}
   </Subscription>
 );
