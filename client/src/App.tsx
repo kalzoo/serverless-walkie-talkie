@@ -1,6 +1,12 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Amplify from "aws-amplify";
+import { withAuthenticator } from "aws-amplify-react";
+import amplifyConfig from "./config/amplify";
+
+import logo from "./logo.svg";
+import "./App.css";
+
+Amplify.configure(amplifyConfig);
 
 const App: React.FC = () => {
   return (
@@ -21,6 +27,6 @@ const App: React.FC = () => {
       </header>
     </div>
   );
-}
+};
 
-export default App;
+export default withAuthenticator(App);
