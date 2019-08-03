@@ -1,0 +1,14 @@
+{
+    "master": {
+        "awscloudformation": {
+            "AuthRoleName": "walkietalkieclient-master-20190803124647-authRole",
+            "UnauthRoleArn": "arn:aws:iam::663518837251:role/walkietalkieclient-master-20190803124647-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::663518837251:role/walkietalkieclient-master-20190803124647-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "walkietalkieclient-master-20190803124647-deployment",
+            "UnauthRoleName": "walkietalkieclient-master-20190803124647-unauthRole",
+            "StackName": "walkietalkieclient-master-20190803124647",
+            "StackId": "arn:aws:cloudformation:us-east-1:663518837251:stack/walkietalkieclient-master-20190803124647/48ce7c80-b60e-11e9-8da7-126c5203d2c8"
+        }
+    }
+}
