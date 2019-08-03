@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const react_1 = require("react");
+const react_dom_1 = require("react-dom");
+const App_1 = require("./App");
+it('renders without crashing', () => {
+    const div = document.createElement('div');
+    react_dom_1.default.render(<App_1.default />, div);
+    react_dom_1.default.unmountComponentAtNode(div);
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQXBwLnRlc3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJBcHAudGVzdC50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpQ0FBMEI7QUFDMUIseUNBQWlDO0FBQ2pDLCtCQUF3QjtBQUV4QixFQUFFLENBQUMsMEJBQTBCLEVBQUUsR0FBRyxFQUFFO0lBQ2xDLE1BQU0sR0FBRyxHQUFHLFFBQVEsQ0FBQyxhQUFhLENBQUMsS0FBSyxDQUFDLENBQUM7SUFDMUMsbUJBQVEsQ0FBQyxNQUFNLENBQUMsQ0FBQyxhQUFHLENBQUMsQUFBRCxFQUFHLEVBQUUsR0FBRyxDQUFDLENBQUM7SUFDOUIsbUJBQVEsQ0FBQyxzQkFBc0IsQ0FBQyxHQUFHLENBQUMsQ0FBQztBQUN2QyxDQUFDLENBQUMsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCc7XG5pbXBvcnQgUmVhY3RET00gZnJvbSAncmVhY3QtZG9tJztcbmltcG9ydCBBcHAgZnJvbSAnLi9BcHAnO1xuXG5pdCgncmVuZGVycyB3aXRob3V0IGNyYXNoaW5nJywgKCkgPT4ge1xuICBjb25zdCBkaXYgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTtcbiAgUmVhY3RET00ucmVuZGVyKDxBcHAgLz4sIGRpdik7XG4gIFJlYWN0RE9NLnVubW91bnRDb21wb25lbnRBdE5vZGUoZGl2KTtcbn0pO1xuIl19
