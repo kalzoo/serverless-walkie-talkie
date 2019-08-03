@@ -3,9 +3,13 @@ import { Grid } from "semantic-ui-react";
 
 import ChatRoom from "components/ChatRoom";
 import RoomList from "components/RoomList";
+import { RouteComponentProps } from "react-router";
 
-const HomeScene: React.FC = () => {
-  const [activeRoom, setActiveRoom] = useState();
+interface Props extends RouteComponentProps<{ roomId: string }> {}
+
+const HomeScene: React.FC<Props> = ({ match }) => {
+  const { params } = match;
+  const { roomId } = params;
 
   return (
     <Grid container>
@@ -13,9 +17,7 @@ const HomeScene: React.FC = () => {
         <Grid.Column>
           <RoomList />
         </Grid.Column>
-        <Grid.Column>
-          <ChatRoom />
-        </Grid.Column>
+        <Grid.Column>{roomId && <ChatRoom roomId={roomId} />}</Grid.Column>
       </Grid.Row>
     </Grid>
   );

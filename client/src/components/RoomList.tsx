@@ -5,6 +5,7 @@ import { Query } from "react-apollo";
 import { Loader, Segment } from "semantic-ui-react";
 
 import { Room } from "types";
+import { Link } from "react-router-dom";
 
 const RoomList: React.FC = () => (
   <Query<Data, {}> query={GET_ROOMS}>
@@ -19,7 +20,9 @@ const RoomList: React.FC = () => (
       return (
         <Segment.Group>
           {rooms.map(room => (
-            <Segment>{room.id}</Segment>
+            <Segment>
+              <Link to={`/${room.id}`}>{room.id}</Link>
+            </Segment>
           ))}
         </Segment.Group>
       );

@@ -2,9 +2,9 @@
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
 
-const playSoundData = (base64: string) => {
-  // const data = atob(base64);
-  const sound = new Audio("data:audio/mpeg;base64," + base64);
+const playSoundData = (dataUrl: string) => {
+  console.log("Playing sound:", dataUrl);
+  const sound = new Audio(dataUrl);
   sound.play();
 };
 
