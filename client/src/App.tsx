@@ -8,7 +8,6 @@ import amplifyConfig from "./config/amplify";
 
 import HomeScene from "scenes/Home";
 
-import logo from "./logo.svg";
 import "semantic-ui-css/semantic.min.css";
 import client from "./config/appsyncClient";
 

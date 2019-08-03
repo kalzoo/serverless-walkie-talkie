@@ -17,7 +17,6 @@ interface Props {
 
 const RecordButton: React.FC<Props> = ({ onRecordAudio }) => {
   const [recording, setRecording] = useState(false);
-  const [audioContextObject, setAudioContextObject] = useState();
   const [mediaRecorderObject, setMediaRecorderObject] = useState();
 
   const options = {
@@ -28,47 +27,57 @@ const RecordButton: React.FC<Props> = ({ onRecordAudio }) => {
     setRecording(true);
     if (navigator.mediaDevices) {
       console.log("[RecordButton] getUserMedia supported");
-      navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-        const audioCtx = new AudioContext();
-        setAudioContextObject(audioCtx);
-
-        // This works, but I don't know what to do with the data within the onaudioprocess callback
-        // const audioProcessor = audioCtx.createScriptProcessor(256, 1, 1);
-        // audioProcessor.connect(audioCtx.destination);
-        // const source = audioCtx.createMediaStreamSource(stream);
-        // source.connect(audioProcessor);
-        // audioProcessor.onaudioprocess = e => console.log(e.inputBuffer.getChannelData());
-
-        const mediaRecorder = new MediaRecorder(stream, options);
-        mediaRecorder.addEventListener("dataavailable", e => {
-          console.log("Data available");
-          //@ts-ignore (data method is unknown)
-          binaryToBase64(e.data).then(data => onRecordAudio(data));
+      navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then(stream => {
+          const mediaRecorder = new MediaRecorder(stream, options);
+          mediaRecorder.addEventListener("dataavailable", e => {
+            console.log("Data available");
+            //@ts-ignore (data method is unknown)
+            binaryToBase64(e.data).then(data => onRecordAudio(data));
+          });
+          mediaRecorder.addEventListener("error", error =>
+            console.error(`[MediaRecorder] Error`, error)
+          );
+          mediaRecorder.addEventListener("stop", e =>
+            stream.getTracks().forEach(track => track.stop())
+          );
+          setMediaRecorderObject(mediaRecorder);
+          mediaRecorder.start(1000); // Slice into 1-second chunks
+        })
+        .catch(err => {
+          console.error(`[RecordButton] Error getting audio device`, err);
+          alert(`[RecordButton] Error getting audio device: ${err}`);
         });
-        mediaRecorder.addEventListener("stop", e => console.log("stopped"));
-        setMediaRecorderObject(mediaRecorder);
-        mediaRecorder.start(1000); // Slice into 1-second chunks
-      });
     }
   };
 
   const endRecording = () => {
     setRecording(false);
-    audioContextObject.close();
-    mediaRecorderObject.stop();
+    mediaRecorderObject && mediaRecorderObject.state !== "inactive"
+      ? mediaRecorderObject.stop()
+      : console.error(
+          `[RecordButton] Unable to stop MediaRecorder: is undefined`
+        );
   };
 
   return (
     <Button
+      fluid
+      size="huge"
+      circular
       primary={recording ? true : undefined}
       icon
+      onClick={() => console.log("click")}
       onMouseDown={startRecording}
       onMouseUp={endRecording}
+      onMouseLeave={endRecording}
       onTouchStart={startRecording}
       onTouchEnd={endRecording}
+      onBlur={endRecording}
     >
       <Icon name="record" />
-      Record
+      &nbsp; Record
     </Button>
   );
 };

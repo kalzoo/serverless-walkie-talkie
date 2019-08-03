@@ -1,9 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { Header } from "semantic-ui-react";
 import { Mutation, Subscription } from "react-apollo";
 import gql from "graphql-tag";
-import { string } from "prop-types";
 import { AudioSegment } from "types";
-import { Loader } from "semantic-ui-react";
 
 import RecordButton from "components/RecordButton";
 import playSoundData from "utilities/playSound";
@@ -34,9 +34,15 @@ const ChatRoom: React.FC<Props> = ({ roomId }) => (
             }
 
             return (
-              <div>
+              <React.Fragment>
+                <Header textAlign="center" as="h1">
+                  Chat Room {roomId}
+                  <Header.Subheader>
+                    <Link to="/">Back to Room List</Link>
+                  </Header.Subheader>
+                </Header>
                 <RecordButton onRecordAudio={handleReceiveData} />
-              </div>
+              </React.Fragment>
             );
           }}
         </Subscription>

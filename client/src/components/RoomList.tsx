@@ -2,7 +2,7 @@ import React from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 
-import { Loader, Segment } from "semantic-ui-react";
+import { Header, Loader, Segment } from "semantic-ui-react";
 
 import { Room } from "types";
 import { Link } from "react-router-dom";
@@ -18,13 +18,16 @@ const RoomList: React.FC = () => (
       }
       const { rooms } = data;
       return (
-        <Segment.Group>
-          {rooms.map(room => (
-            <Segment>
-              <Link to={`/${room.id}`}>{room.id}</Link>
-            </Segment>
-          ))}
-        </Segment.Group>
+        <React.Fragment>
+          <Header as="h1">Chat Rooms</Header>
+          <Segment.Group>
+            {rooms.map(room => (
+              <Segment key={room.id}>
+                <Link to={`/${room.id}`}>{room.id}</Link>
+              </Segment>
+            ))}
+          </Segment.Group>
+        </React.Fragment>
       );
     }}
   </Query>

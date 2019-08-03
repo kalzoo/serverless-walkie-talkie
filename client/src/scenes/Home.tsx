@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Grid } from "semantic-ui-react";
+import React from "react";
+import { Container } from "semantic-ui-react";
 
 import ChatRoom from "components/ChatRoom";
 import RoomList from "components/RoomList";
@@ -12,14 +12,9 @@ const HomeScene: React.FC<Props> = ({ match }) => {
   const { roomId } = params;
 
   return (
-    <Grid container>
-      <Grid.Row columns={2}>
-        <Grid.Column>
-          <RoomList />
-        </Grid.Column>
-        <Grid.Column>{roomId && <ChatRoom roomId={roomId} />}</Grid.Column>
-      </Grid.Row>
-    </Grid>
+    <Container style={{ minHeight: "100vw" }}>
+      {roomId ? <ChatRoom roomId={roomId} /> : <RoomList />}
+    </Container>
   );
 };
 
