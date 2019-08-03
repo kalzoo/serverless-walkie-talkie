@@ -1,0 +1,30 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type Query {
+  audioSegments(roomId: ID!): [AudioSegment]
+  rooms: [Room]
+}
+
+type Mutation {
+  createAudioSegment(roomId: ID!, data: String!): AudioSegment
+}
+
+type Subscription {
+  onCreateAudioSegment(roomId: ID!): AudioSegment
+    @aws_subscribe(mutations: ["createAudioSegment"])
+}
+
+type AudioSegment {
+  roomId: ID!
+  data: String!
+  timestamp: String!
+  userId: String!
+}
+
+type Room {
+  id: ID!
+}
