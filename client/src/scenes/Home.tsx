@@ -12,7 +12,7 @@ const HomeScene: React.FC<Props> = ({ match }) => {
   const { roomId } = params;
 
   return (
-    <Container style={{ minHeight: "100vw" }}>
+    <Container>
       {roomId ? <ChatRoom roomId={roomId} /> : <RoomList />}
     </Container>
   );

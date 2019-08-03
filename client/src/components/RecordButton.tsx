@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Icon } from "semantic-ui-react";
+import getUserMedia from "utilities/getUserMedia";
 
 const binaryToBase64 = (data: Blob) =>
   new Promise((resolve, reject) => {
@@ -25,10 +26,10 @@ const RecordButton: React.FC<Props> = ({ onRecordAudio }) => {
 
   const startRecording = () => {
     setRecording(true);
-    if (navigator.mediaDevices) {
+
+    if (getUserMedia) {
       console.log("[RecordButton] getUserMedia supported");
-      navigator.mediaDevices
-        .getUserMedia({ audio: true })
+      getUserMedia({ audio: true })
         .then(stream => {
           const mediaRecorder = new MediaRecorder(stream, options);
           mediaRecorder.addEventListener("dataavailable", e => {
@@ -49,6 +50,8 @@ const RecordButton: React.FC<Props> = ({ onRecordAudio }) => {
           console.error(`[RecordButton] Error getting audio device`, err);
           alert(`[RecordButton] Error getting audio device: ${err}`);
         });
+    } else {
+      console.error(`[RecordButton] getUserMedia not supported!`);
     }
   };
 
