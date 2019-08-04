@@ -1,22 +1,23 @@
 import React from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
-
+import { Link } from "react-router-dom";
 import { Header, Loader, Segment } from "semantic-ui-react";
 
+import ErrorMessage from "components/ErrorMessage";
 import { Room } from "types";
-import { Link } from "react-router-dom";
 
 const RoomList: React.FC = () => (
   <Query<Data, {}> query={GET_ROOMS}>
     {({ data, error, loading }) => {
-      console.log(data);
       if (loading) return <Loader active message="Loading rooms..." />;
       if (error || !data) {
         console.error(`[GetRooms] ${error ? error : "No data returned"}`);
-        return <Segment placeholder>Error :(</Segment>;
+        return <ErrorMessage error={error} />;
       }
+
       const { rooms } = data;
+
       return (
         <React.Fragment>
           <Header as="h1">Chat Rooms</Header>

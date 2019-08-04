@@ -1,15 +1,7 @@
 import React, { useState } from "react";
 import { Button, Icon } from "semantic-ui-react";
 import getUserMedia from "utilities/getUserMedia";
-
-const binaryToBase64 = (data: Blob) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      resolve(reader.result);
-    };
-    reader.readAsDataURL(data);
-  });
+import binaryToBase64 from "utilities/binaryToBase64";
 
 interface Props {
   onRecordAudio: (base64: string) => void;
@@ -48,7 +40,7 @@ const RecordButton: React.FC<Props> = ({ onRecordAudio }) => {
           });
 
           setMediaRecorderObject(mediaRecorder);
-          mediaRecorder.start(250); // Slice into 0.5-second chunks for processing
+          mediaRecorder.start(250); // Slice into chunks for processing
         },
         err => {
           console.error(`[RecordButton] Error getting audio device`, err);

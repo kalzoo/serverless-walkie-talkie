@@ -5,6 +5,7 @@ import { Mutation, Subscription } from "react-apollo";
 import gql from "graphql-tag";
 import { AudioSegment } from "types";
 
+import ErrorMessage from "components/ErrorMessage";
 import RecordButton from "components/RecordButton";
 import playSoundData from "utilities/playSound";
 
@@ -30,7 +31,7 @@ const ChatRoom: React.FC<Props> = ({ roomId }) => (
           {({ error, loading }) => {
             if (error) {
               console.error("[OnCreateAudioSegment] Error: ", error);
-              return "Error";
+              return <ErrorMessage error={error} />;
             }
 
             return (

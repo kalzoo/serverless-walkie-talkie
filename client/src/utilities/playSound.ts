@@ -1,5 +1,4 @@
 const playSoundData = (dataUrl: string) => {
-  console.log("Playing sound:", dataUrl);
   new Audio(dataUrl).play().catch(err => {
     console.error(
       `[PlaySoundData] Error playing sound:`,
@@ -7,7 +6,6 @@ const playSoundData = (dataUrl: string) => {
       err.message,
       dataUrl
     );
-    // debugger;
   });
 };
 
