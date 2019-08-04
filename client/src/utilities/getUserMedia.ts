@@ -1,10 +1,11 @@
-const getUserMedia =
-  (navigator.mediaDevices || {}).getUserMedia ||
+const getUserMedia = (
+  navigator.getUserMedia ||
   // @ts-ignore
   navigator.webkitGetUserMedia ||
   // @ts-ignore
   navigator.mozGetUserMedia ||
   // @ts-ignore
-  navigator.msGetUserMedia;
+  navigator.msGetUserMedia
+).bind(navigator);
 
 export default getUserMedia;

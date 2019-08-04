@@ -6,7 +6,6 @@ const binaryToBase64 = (data: Blob) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onloadend = () => {
-      // console.log("File reader completed");
       resolve(reader.result);
     };
     reader.readAsDataURL(data);
@@ -29,27 +28,32 @@ const RecordButton: React.FC<Props> = ({ onRecordAudio }) => {
 
     if (getUserMedia) {
       console.log("[RecordButton] getUserMedia supported");
-      getUserMedia({ audio: true })
-        .then(stream => {
+      getUserMedia(
+        { audio: true },
+        stream => {
           const mediaRecorder = new MediaRecorder(stream, options);
           mediaRecorder.addEventListener("dataavailable", e => {
-            console.log("Data available");
-            //@ts-ignore (data method is unknown)
+            //@ts-ignore (data property is unknown)
             binaryToBase64(e.data).then(data => onRecordAudio(data));
           });
           mediaRecorder.addEventListener("error", error =>
             console.error(`[MediaRecorder] Error`, error)
           );
+
+          // Without this, the browser continues to believe that the application is "listening",
+          //   and displays a warning banner to the user
           mediaRecorder.addEventListener("stop", e =>
             stream.getTracks().forEach(track => track.stop())
           );
+
           setMediaRecorderObject(mediaRecorder);
-          mediaRecorder.start(1000); // Slice into 1-second chunks
-        })
-        .catch(err => {
+          mediaRecorder.start(1000); // Slice into 1-second chunks for processing
+        },
+        err => {
           console.error(`[RecordButton] Error getting audio device`, err);
           alert(`[RecordButton] Error getting audio device: ${err}`);
-        });
+        }
+      );
     } else {
       console.error(`[RecordButton] getUserMedia not supported!`);
     }
@@ -57,11 +61,9 @@ const RecordButton: React.FC<Props> = ({ onRecordAudio }) => {
 
   const endRecording = () => {
     setRecording(false);
-    mediaRecorderObject && mediaRecorderObject.state !== "inactive"
-      ? mediaRecorderObject.stop()
-      : console.error(
-          `[RecordButton] Unable to stop MediaRecorder: is undefined`
-        );
+    mediaRecorderObject &&
+      mediaRecorderObject.state !== "inactive" &&
+      mediaRecorderObject.stop();
   };
 
   return (
