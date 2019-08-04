@@ -8,11 +8,6 @@ import fs = require("fs");
 import path = require("path");
 
 import {
-  request as audioSegmentsRequest,
-  response as audioSegmentsResponse
-} from "../src/resolverMappings/audioSegments";
-
-import {
   request as createAudioSegmentRequest,
   response as createAudioSegmentResponse
 } from "../src/resolverMappings/createAudioSegment";
@@ -54,21 +49,6 @@ export class ServerlessWalkieTalkieStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY
     });
 
-    const audioSegmentTable = new dynamo.Table(this, "AudioSegmentTable", {
-      partitionKey: {
-        name: "roomId",
-        type: dynamo.AttributeType.STRING
-      },
-      sortKey: {
-        name: "timestamp",
-        type: dynamo.AttributeType.STRING
-      },
-      timeToLiveAttribute: "expiresAt",
-      readCapacity: 5,
-      writeCapacity: 5,
-      removalPolicy: cdk.RemovalPolicy.DESTROY
-    });
-
     const dynamoRole = new iam.LazyRole(this, "AppsyncDynamoRole", {
       assumedBy: new iam.ServicePrincipal("appsync.amazonaws.com"),
       roleName: `${applicationName}-appsync-dynamo-role`,
@@ -101,13 +81,7 @@ export class ServerlessWalkieTalkieStack extends cdk.Stack {
       {
         apiId: appsyncApi.attrApiId,
         name: "AudioSegmentDataSource",
-        type: "AMAZON_DYNAMODB",
-        serviceRoleArn: dynamoRole.roleArn,
-        dynamoDbConfig: {
-          awsRegion: "us-east-1",
-          tableName: audioSegmentTable.tableName,
-          useCallerCredentials: false
-        }
+        type: "NONE"
       }
     );
 
@@ -135,15 +109,6 @@ export class ServerlessWalkieTalkieStack extends cdk.Stack {
       responseMappingTemplate: ensureString(roomsResponse),
       typeName: "Query"
     }).addDependsOn(roomDataSource);
-
-    new appsync.CfnResolver(this, "ResolverAudioSegments", {
-      apiId: appsyncApi.attrApiId,
-      dataSourceName: audioSegmentDataSource.name,
-      fieldName: "audioSegments",
-      requestMappingTemplate: ensureString(audioSegmentsRequest),
-      responseMappingTemplate: ensureString(audioSegmentsResponse),
-      typeName: "Query"
-    }).addDependsOn(audioSegmentDataSource);
 
     new appsync.CfnResolver(this, "ResolverCreateAudioSegment", {
       apiId: appsyncApi.attrApiId,
