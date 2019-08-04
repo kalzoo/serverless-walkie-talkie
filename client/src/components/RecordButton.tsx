@@ -43,9 +43,9 @@ const RecordButton: React.FC<Props> = ({ onRecordAudio }) => {
 
           // Without this, the browser continues to believe that the application is "listening",
           //   and displays a warning banner to the user
-          mediaRecorder.addEventListener("stop", e =>
-            stream.getTracks().forEach((track: any) => track.stop())
-          );
+          mediaRecorder.addEventListener("stop", e => {
+            stream.getTracks().forEach((track: any) => track.stop());
+          });
 
           setMediaRecorderObject(mediaRecorder);
           mediaRecorder.start(250); // Slice into 0.5-second chunks for processing
@@ -62,9 +62,9 @@ const RecordButton: React.FC<Props> = ({ onRecordAudio }) => {
 
   const endRecording = () => {
     setRecording(false);
-    mediaRecorderObject &&
-      mediaRecorderObject.state !== "inactive" &&
+    try {
       mediaRecorderObject.stop();
+    } catch (_) {}
   };
 
   return (
@@ -74,19 +74,13 @@ const RecordButton: React.FC<Props> = ({ onRecordAudio }) => {
       circular
       color={recording ? "red" : undefined}
       icon
-      onClick={() => console.log("click")}
-      onMouseDown={startRecording}
-      onMouseUp={endRecording}
-      onMouseLeave={endRecording}
-      onTouchStart={startRecording}
-      onTouchEnd={endRecording}
-      onBlur={endRecording}
+      onClick={recording ? endRecording : startRecording}
     >
       <Icon
         name={recording ? "circle notched" : "microphone"}
         loading={recording}
       />
-      &nbsp; {recording ? "Recording..." : "Press to Record"}
+      &nbsp; {recording ? "Transmitting..." : "Push to Talk"}
     </Button>
   );
 };
