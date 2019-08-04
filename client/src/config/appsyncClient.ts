@@ -1,6 +1,5 @@
 import AWSAppSyncClient from "aws-appsync";
 import { Auth } from "aws-amplify";
-// import localForage from 'localforage';
 
 // From here. Thanks C.Lee!
 // https://stackoverflow.com/questions/52960709/how-to-use-apollo-client-with-appsync
