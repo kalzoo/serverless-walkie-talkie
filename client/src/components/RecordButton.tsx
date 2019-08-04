@@ -72,7 +72,7 @@ const RecordButton: React.FC<Props> = ({ onRecordAudio }) => {
       fluid
       size="huge"
       circular
-      primary={recording ? true : undefined}
+      color={recording ? "red" : undefined}
       icon
       onClick={() => console.log("click")}
       onMouseDown={startRecording}
@@ -82,8 +82,11 @@ const RecordButton: React.FC<Props> = ({ onRecordAudio }) => {
       onTouchEnd={endRecording}
       onBlur={endRecording}
     >
-      <Icon name="record" />
-      &nbsp; Record
+      <Icon
+        name={recording ? "circle notched" : "microphone"}
+        loading={recording}
+      />
+      &nbsp; {recording ? "Recording..." : "Press to Record"}
     </Button>
   );
 };
