@@ -21,7 +21,7 @@ const App: React.FC = () => {
       <Segment placeholder>
         <Header icon>
           <Icon name="thumbs down outline" />
-          Your device doesn't support this app. Sad.
+          Your browser or device doesn't support this app. Sad.
         </Header>
       </Segment>
     );

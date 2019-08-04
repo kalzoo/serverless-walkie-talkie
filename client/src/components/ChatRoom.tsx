@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Header } from "semantic-ui-react";
+import { Header, Icon } from "semantic-ui-react";
 import { Mutation, Subscription } from "react-apollo";
 import gql from "graphql-tag";
 import { AudioSegment } from "types";
@@ -36,7 +36,10 @@ const ChatRoom: React.FC<Props> = ({ roomId }) => (
             return (
               <React.Fragment>
                 <Header textAlign="center" as="h1">
-                  Chat Room {roomId}
+                  <Header.Content>
+                    <Icon name="chat" />
+                    {roomId}
+                  </Header.Content>
                   <Header.Subheader>
                     <Link to="/">Back to Room List</Link>
                   </Header.Subheader>
