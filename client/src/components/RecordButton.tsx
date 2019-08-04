@@ -33,6 +33,7 @@ const RecordButton: React.FC<Props> = ({ onRecordAudio }) => {
         stream => {
           const mediaRecorder = new MediaRecorder(stream, options);
           mediaRecorder.addEventListener("dataavailable", e => {
+            console.log("data available:", e);
             //@ts-ignore (data property is unknown)
             binaryToBase64(e.data).then(data => onRecordAudio(data));
           });
@@ -43,11 +44,11 @@ const RecordButton: React.FC<Props> = ({ onRecordAudio }) => {
           // Without this, the browser continues to believe that the application is "listening",
           //   and displays a warning banner to the user
           mediaRecorder.addEventListener("stop", e =>
-            stream.getTracks().forEach(track => track.stop())
+            stream.getTracks().forEach((track: any) => track.stop())
           );
 
           setMediaRecorderObject(mediaRecorder);
-          mediaRecorder.start(1000); // Slice into 1-second chunks for processing
+          mediaRecorder.start(250); // Slice into 0.5-second chunks for processing
         },
         err => {
           console.error(`[RecordButton] Error getting audio device`, err);
