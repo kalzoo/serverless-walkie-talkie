@@ -17,8 +17,6 @@ import {
   response as roomsResponse
 } from "../src/resolverMappings/rooms";
 
-import { Stack } from "@aws-cdk/core";
-
 const ensureString = (value: any) => {
   if (typeof value === "string") {
     return value;
@@ -62,7 +60,7 @@ export class ServerlessWalkieTalkieStack extends cdk.Stack {
       authenticationType: "AMAZON_COGNITO_USER_POOLS",
       userPoolConfig: {
         appIdClientRegex: ".*",
-        awsRegion: Stack.of(this).region,
+        awsRegion: cdk.Stack.of(this).region,
         defaultAction: "ALLOW",
         userPoolId: userPool.userPoolId
       }
