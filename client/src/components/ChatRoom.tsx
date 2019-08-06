@@ -7,7 +7,7 @@ import { AudioSegment } from "types";
 
 import ErrorMessage from "components/ErrorMessage";
 import RecordButton from "components/RecordButton";
-import playSoundData from "utilities/playSound";
+import playSoundData from "utilities/playSoundData";
 
 interface Props {
   roomId: string;
