@@ -31,7 +31,9 @@ export class ServerlessWalkieTalkieStack extends cdk.Stack {
 
     const applicationName = "serverless-walkie-talkie";
 
-    const userPool = new cognito.UserPool(this, "UserPool", {});
+    const userPool = new cognito.UserPool(this, "UserPool", {
+      autoVerifiedAttributes: [cognito.UserPoolAttribute.EMAIL]
+    });
 
     const userPoolClient = new cognito.UserPoolClient(this, "UserPoolClient", {
       userPool
